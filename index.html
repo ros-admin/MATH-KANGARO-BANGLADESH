@@ -362,7 +362,7 @@
 
     <div class="container">
         
-        <img src="banner.png" alt="Math Kangaroo Bangladesh Banner" class="banner" onerror="this.style.display='none'">
+        <img src="../banner.jpeg" alt="Math Kangaroo Bangladesh Banner" class="banner" onerror="this.style.display='none'">
 
         <div class="form-box">
             
@@ -469,9 +469,9 @@
                     <div class="form-group">
                         <label for="bkash_paid">পেমেন্ট স্ট্যাটাস <span style="color: red;">*</span></label>
                         <select id="bkash_paid" name="bkash_paid" onchange="togglePaymentFields()" required>
-                            <option value="" disabled selected>পেমেন্ট সম্পন্ন করেছেন?</option>
-                            <option value="Yes">হ্যাঁ, টাকা পাঠিয়েছি (Yes)</option>
-                            <option value="No">না, এখনো পাঠাইনি (No)</option>
+                            <option value="" disabled selected> বিকাশে পেমেন্ট করেছেন?</option>
+                            <option value="Yes">হ্যাঁ (Yes)</option>
+                            <option value="No">না (No)</option>
                         </select>
                     </div>
 
@@ -544,7 +544,7 @@
 
 <script>
     // আপনার গুগল অ্যাপস স্ক্রিপ্ট ওয়েব অ্যাপ URL
-    const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyPrVnYAWIUrZa8Lrgf8WzBtZHRw2_uMI-V7ZwQLTkR4T4jbDdCSRU7ntRcIGUDp6Bd0g/exec";
 
     function copyBkashNumber() {
         const num = document.getElementById("bkashNum").innerText;
