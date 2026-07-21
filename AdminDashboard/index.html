@@ -7,7 +7,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -15,33 +14,30 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
         body { font-family: 'Outfit', sans-serif; background-color: #f8fafc; }
-        .modal-overlay-loader { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(8px); }
         .modal-overlay { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(8px); }
-        .info-sub-box { background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 12px; }
-        
-        .atom-loader { position: relative; width: 70px; height: 70px; display: flex; justify-content: center; align-items: center; }
-        .atom-center { width: 14px; height: 14px; background: radial-gradient(circle, #6366f1, #4f46e5); border-radius: 100%; box-shadow: 0 0 15px #6366f1; z-index: 10; animation: pulse 1.2s infinite ease-in-out; }
-        .atom-orbit { position: absolute; border: 2px solid rgba(99, 102, 241, 0.35); border-radius: 50%; }
-        .atom-orbit:nth-child(1) { width: 66px; height: 26px; transform: rotate(0deg); animation: orbit1 2s linear infinite; border-top-color: #6366f1; }
-        .atom-orbit:nth-child(2) { width: 66px; height: 26px; transform: rotate(60deg); animation: orbit2 2s linear infinite; border-top-color: #f43f5e; }
-        .atom-orbit:nth-child(3) { width: 66px; height: 26px; transform: rotate(120deg); animation: orbit3 2s linear infinite; border-top-color: #10b981; }
-
-        @keyframes pulse { 0%, 100% { transform: scale(0.9); opacity: 0.8; } 50% { transform: scale(1.15); opacity: 1; box-shadow: 0 0 25px #6366f1; } }
-        @keyframes orbit1 { 100% { transform: rotate(360deg); } }
-        @keyframes orbit2 { 0% { transform: rotate(60deg); } 100% { transform: rotate(420deg); } }
-        @keyframes orbit3 { 0% { transform: rotate(120deg); } 100% { transform: rotate(500deg); } }
+        .info-sub-box { background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 10px; }
     </style>
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col antialiased">
 
     <div id="toastContainer" class="fixed top-4 right-4 left-4 sm:left-auto z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
 
-    <div id="loader" class="fixed inset-0 z-50 hidden flex items-center justify-center modal-overlay-loader">
-        <div class="atom-loader">
-            <div class="atom-orbit"></div>
-            <div class="atom-orbit"></div>
-            <div class="atom-orbit"></div>
-            <div class="atom-center"></div>
+    <div id="loader" class="fixed inset-0 z-50 hidden flex items-center justify-center modal-overlay">
+        <div class="bg-white p-5 rounded-2xl shadow-xl flex items-center gap-3">
+            <i class="fas fa-spinner fa-spin text-2xl text-indigo-600"></i>
+            <span class="text-xs font-bold text-slate-700">Loading...</span>
+        </div>
+    </div>
+
+    <div id="reasonModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-overlay">
+        <div class="bg-white rounded-2xl p-5 shadow-xl border border-slate-100 max-w-md w-full">
+            <h3 class="text-sm font-bold text-slate-900 mb-1" id="reasonModalTitle">Enter Status Change Reason</h3>
+            <p class="text-xs text-slate-500 mb-3">Please state the reason for suspending or pending this application.</p>
+            <textarea id="reasonInput" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:border-indigo-500 mb-4 h-24" placeholder="Write reason here..."></textarea>
+            <div class="flex justify-end gap-2">
+                <button onclick="closeReasonModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl text-xs cursor-pointer">Cancel</button>
+                <button onclick="submitStatusWithReason()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs cursor-pointer">Save Status</button>
+            </div>
         </div>
     </div>
 
@@ -93,6 +89,10 @@
                     <span class="text-slate-400 font-bold block mb-1">User Comment:</span>
                     <span class="font-medium text-slate-700" id="detailComment">-</span>
                 </div>
+                <div class="info-sub-box bg-indigo-50 border-indigo-100">
+                    <span class="text-indigo-500 font-bold block mb-1">Admin Reason / Remark:</span>
+                    <span class="font-bold text-indigo-900" id="detailAdminReason">-</span>
+                </div>
             </div>
             <div class="mt-5 text-right">
                 <button onclick="closeDetailsModal()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-5 py-2 rounded-xl text-xs transition cursor-pointer">Close</button>
@@ -103,169 +103,130 @@
     <div id="loginBox" class="max-w-md w-full mx-auto my-auto px-4 py-6">
         <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-100">
             <div class="text-center mb-6">
-                <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-xl mx-auto flex items-center justify-center text-xl shadow-inner mb-2">
-                    <i class="fas fa-user-shield"></i>
-                </div>
                 <h2 class="text-xl font-bold text-slate-900">Math Kangaroo Bangladesh</h2>
-                <p class="text-slate-400 text-xs mt-0.5">Admin Dashboard Login</p>
+                <p class="text-slate-400 text-xs mt-0.5">Admin Login</p>
             </div>
             <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Username</label>
-                    <input type="text" id="username" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-indigo-500 focus:bg-white transition text-xs" placeholder="info@bdosn.org">
+                    <input type="text" id="username" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-indigo-500 text-xs" placeholder="info@bdosn.org">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Password</label>
-                    <input type="password" id="password" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-indigo-500 focus:bg-white transition text-xs" placeholder="••••••••">
+                    <input type="password" id="password" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-indigo-500 text-xs" placeholder="••••••••">
                 </div>
-                <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow-md shadow-indigo-600/20 transition cursor-pointer text-sm" onclick="login()">Login</button>
+                <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition cursor-pointer text-sm" onclick="login()">Login</button>
             </div>
         </div>
     </div>
 
     <div id="dashboardBox" class="hidden max-w-7xl w-full mx-auto px-3 sm:px-4 py-4 sm:py-6 flex-1 flex flex-col">
         
-        <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-100 shadow-md flex justify-between items-center gap-4 mb-4">
+        <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-md flex justify-between items-center gap-4 mb-4">
             <div>
-                <h1 class="text-lg sm:text-2xl font-bold text-slate-900 tracking-tight">Math Kangaroo Bangladesh</h1>
-                <p class="text-[10px] sm:text-xs font-bold text-indigo-600 uppercase tracking-wide mt-0.5">Online Foundation Camp - 2026</p>
+                <h1 class="text-lg sm:text-xl font-bold text-slate-900">Math Kangaroo Bangladesh</h1>
+                <p class="text-[10px] sm:text-xs font-bold text-indigo-600 uppercase mt-0.5">Admin Dashboard</p>
             </div>
-            <button onclick="logout()" class="bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold px-3 py-1.5 rounded-xl text-xs transition cursor-pointer flex items-center gap-1">
+            <button onclick="logout()" class="bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold px-3 py-1.5 rounded-xl text-xs transition cursor-pointer">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </button>
         </div>
 
-        <div class="flex border-b border-slate-200 mb-4 gap-1">
-            <button id="tabOverviewBtn" onclick="switchTab('overview')" class="px-4 py-2.5 font-bold text-xs sm:text-sm text-indigo-600 border-b-2 border-indigo-600 transition cursor-pointer">
-                <i class="fas fa-chart-pie"></i> Overview & Analytics
-            </button>
-            <button id="tabManagementBtn" onclick="switchTab('management')" class="px-4 py-2.5 font-bold text-xs sm:text-sm text-slate-500 hover:text-slate-800 transition cursor-pointer">
-                <i class="fas fa-users-cog"></i> Student Management
-            </button>
-        </div>
-
-        <div id="tabOverview" class="block space-y-4">
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-                    <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase">Total Registration</p>
-                    <h3 id="cardTotal" class="text-2xl sm:text-3xl font-bold text-slate-800 font-mono mt-1">0</h3>
-                </div>
-                <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-                    <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase">Approved</p>
-                    <h3 id="cardApproved" class="text-2xl sm:text-3xl font-bold text-emerald-600 font-mono mt-1">0</h3>
-                </div>
-                <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-                    <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase">Pending</p>
-                    <h3 id="cardPending" class="text-2xl sm:text-3xl font-bold text-amber-600 font-mono mt-1">0</h3>
-                </div>
-                <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-                    <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase">Suspended</p>
-                    <h3 id="cardSuspend" class="text-2xl sm:text-3xl font-bold text-rose-600 font-mono mt-1">0</h3>
-                </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase">Total Registration</p>
+                <h3 id="cardTotal" class="text-2xl font-bold text-slate-800 font-mono mt-1">0</h3>
             </div>
-
-            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm h-[260px]">
-                <h4 class="text-xs sm:text-sm font-bold text-slate-700 uppercase mb-2">Last 7 Days Registration Trend</h4>
-                <div class="relative w-full h-[190px]">
-                    <canvas id="lineChart7Days"></canvas>
-                </div>
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase">Approved</p>
+                <h3 id="cardApproved" class="text-2xl font-bold text-emerald-600 font-mono mt-1">0</h3>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm h-[260px]">
-                    <h4 class="text-xs sm:text-sm font-bold text-slate-700 uppercase mb-2">Gender Distribution</h4>
-                    <div class="relative w-full h-[180px] flex justify-center">
-                        <canvas id="pieChartGender"></canvas>
-                    </div>
-                </div>
-                <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm h-[260px]">
-                    <h4 class="text-xs sm:text-sm font-bold text-slate-700 uppercase mb-2">Class Wise Registration</h4>
-                    <div class="relative w-full h-[180px]">
-                        <canvas id="barChartClass"></canvas>
-                    </div>
-                </div>
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase">Pending</p>
+                <h3 id="cardPending" class="text-2xl font-bold text-amber-600 font-mono mt-1">0</h3>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                <p class="text-[10px] sm:text-xs font-bold text-slate-400 uppercase">Suspended</p>
+                <h3 id="cardSuspend" class="text-2xl font-bold text-rose-600 font-mono mt-1">0</h3>
             </div>
         </div>
 
-        <div id="tabManagement" class="hidden space-y-3">
-            <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex flex-col gap-3">
-                <div class="w-full flex flex-col sm:flex-row gap-3 items-center justify-between">
-                    <div class="relative w-full sm:max-w-xs">
-                        <i class="fas fa-search absolute left-3 top-3 text-slate-400 text-xs"></i>
-                        <input type="text" id="searchInput" oninput="filterData()" class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:border-indigo-500 transition" placeholder="Search name, school, mobile...">
-                    </div>
-                    <div class="flex gap-2 w-full sm:w-auto">
-                        <button onclick="exportToPDF()" class="flex-1 sm:flex-none bg-rose-600 hover:bg-rose-700 text-white font-bold px-3 py-2 rounded-xl text-xs flex items-center justify-center gap-1 shadow transition cursor-pointer">
-                            <i class="fas fa-file-pdf"></i> PDF Download
-                        </button>
-                        <button onclick="exportFilteredToExcel()" class="flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-xl text-xs flex items-center justify-center gap-1 shadow transition cursor-pointer">
-                            <i class="fas fa-file-excel"></i> Excel Download
-                        </button>
-                    </div>
+        <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex flex-col gap-3 mb-4">
+            <div class="w-full flex flex-col sm:flex-row gap-3 items-center justify-between">
+                <div class="relative w-full sm:max-w-xs">
+                    <i class="fas fa-search absolute left-3 top-3 text-slate-400 text-xs"></i>
+                    <input type="text" id="searchInput" oninput="filterData()" class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:border-indigo-500" placeholder="Search name, school, mobile...">
                 </div>
-                
-                <div class="grid grid-cols-3 gap-2 border-t border-slate-100 pt-3">
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Status</label>
-                        <select id="statusFilter" onchange="filterData()" class="w-full bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold p-2 cursor-pointer">
-                            <option value="All">All Status</option>
-                            <option value="Approved">Approved</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Suspended">Suspended</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Gender</label>
-                        <select id="genderFilter" onchange="filterData()" class="w-full bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold p-2 cursor-pointer">
-                            <option value="All">All Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Class</label>
-                        <select id="classFilter" onchange="filterData()" class="w-full bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold p-2 cursor-pointer">
-                            <option value="All">All Class</option>
-                            <option value="১ম শ্রেণী">১ম শ্রেণী</option>
-                            <option value="২য় শ্রেণী">২য় শ্রেণী</option>
-                            <option value="৩য় শ্রেণী">৩য় শ্রেণী</option>
-                            <option value="৪র্থ শ্রেণী">৪র্থ শ্রেণী</option>
-                            <option value="৫ম শ্রেণী">৫ম শ্রেণী</option>
-                        </select>
-                    </div>
+                <div class="flex gap-2 w-full sm:w-auto">
+                    <button onclick="exportToPDF()" class="flex-1 sm:flex-none bg-rose-600 hover:bg-rose-700 text-white font-bold px-3 py-2 rounded-xl text-xs flex items-center justify-center gap-1 shadow cursor-pointer">
+                        <i class="fas fa-file-pdf"></i> PDF Download
+                    </button>
+                    <button onclick="exportFilteredToExcel()" class="flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-xl text-xs flex items-center justify-center gap-1 shadow cursor-pointer">
+                        <i class="fas fa-file-excel"></i> Excel Download
+                    </button>
                 </div>
             </div>
-
-            <div class="bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse text-xs min-w-[750px] sm:min-w-full">
-                        <thead>
-                            <tr class="bg-slate-50 border-b border-slate-100">
-                                <th class="p-3 font-bold text-slate-500 text-center w-12">Sl</th>
-                                <th class="p-3 font-bold text-slate-800">Student Name</th>
-                                <th class="p-3 font-bold text-slate-800">School Name</th>
-                                <th class="p-3 font-bold text-slate-800">Class</th>
-                                <th class="p-3 font-bold text-slate-800">Mobile</th>
-                                <th class="p-3 font-bold text-slate-800">Status</th>
-                                <th class="p-3 font-bold text-slate-800 text-center">Change Status</th>
-                                <th class="p-3 font-bold text-slate-800 text-center w-20">Details</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody" class="divide-y divide-slate-50"></tbody>
-                    </table>
+            
+            <div class="grid grid-cols-3 gap-2 border-t border-slate-100 pt-3">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Status Filter</label>
+                    <select id="statusFilter" onchange="filterData()" class="w-full bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold p-2 cursor-pointer">
+                        <option value="All">All Status</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Suspended">Suspended</option>
+                    </select>
                 </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Gender</label>
+                    <select id="genderFilter" onchange="filterData()" class="w-full bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold p-2 cursor-pointer">
+                        <option value="All">All Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Class</label>
+                    <select id="classFilter" onchange="filterData()" class="w-full bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold p-2 cursor-pointer">
+                        <option value="All">All Class</option>
+                        <option value="১ম শ্রেণী">১ম শ্রেণী</option>
+                        <option value="২য় শ্রেণী">২য় শ্রেণী</option>
+                        <option value="৩য় শ্রেণী">৩য় শ্রেণী</option>
+                        <option value="৪র্থ শ্রেণী">৪র্থ শ্রেণী</option>
+                        <option value="৫ম শ্রেণী">৫ম শ্রেণী</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden flex-1">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs min-w-[750px] sm:min-w-full">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-100">
+                            <th class="p-3 font-bold text-slate-500 text-center w-12">Sl</th>
+                            <th class="p-3 font-bold text-slate-800">Student Name</th>
+                            <th class="p-3 font-bold text-slate-800">Class</th>
+                            <th class="p-3 font-bold text-slate-800">School Name</th>
+                            <th class="p-3 font-bold text-slate-800">Mobile</th>
+                            <th class="p-3 font-bold text-slate-800">Status</th>
+                            <th class="p-3 font-bold text-slate-800 text-center">Change Status</th>
+                            <th class="p-3 font-bold text-slate-800 text-center w-20">Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" class="divide-y divide-slate-50"></tbody>
+                </table>
             </div>
         </div>
 
     </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwKKT8qEJh6vKTLAhXikBZZ3J5ebrxb_wUrgcL8X2867uWXtuhWywFgMjD2hlS3cSZOqQ/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3h-dHOeMlwnzsE1kelDnKUoDoBHxcwvi0yFAApTDVeoirt4fW-PUgLiM8LrWcvytd8A/exec";
     let allStudents = [];
     let filteredStudents = [];
-    let genderChartInstance = null;
-    let classChartInstance = null;
-    let lineChartInstance = null;
+    
+    let pendingStatusUpdate = { rowId: null, targetStatus: null };
 
     function showLoader(show) {
         document.getElementById('loader').classList.toggle('hidden', !show);
@@ -283,7 +244,7 @@
     function login() {
         const user = document.getElementById('username').value.trim();
         const pass = document.getElementById('password').value.trim();
-        if(!user || !pass) return showToast("Enter login credentials!", "error");
+        if(!user || !pass) return showToast("Enter credentials!", "error");
 
         showLoader(true);
         fetch(SCRIPT_URL, {
@@ -298,13 +259,12 @@
                 sessionStorage.setItem('admin_token', res.token);
                 document.getElementById('loginBox').classList.add('hidden');
                 document.getElementById('dashboardBox').classList.remove('hidden');
-                showToast("Login Successful!");
                 loadData();
             } else {
                 showToast(res.message || "Login Failed!", "error");
             }
         })
-        .catch(err => {
+        .catch(() => {
             showLoader(false);
             showToast("Network Error!", "error");
         });
@@ -323,13 +283,12 @@
                 allStudents = data;
                 filterData();
             } else {
-                showToast(data.message || "Session Expired!", "error");
                 logout();
             }
         })
         .catch(() => {
             showLoader(false);
-            showToast("Failed to load data!", "error");
+            showToast("Failed to fetch data!", "error");
         });
     }
 
@@ -356,69 +315,6 @@
         document.getElementById('cardApproved').innerText = allStudents.filter(s => s.status === 'Approved').length;
         document.getElementById('cardPending').innerText = allStudents.filter(s => s.status === 'Pending').length;
         document.getElementById('cardSuspend').innerText = allStudents.filter(s => s.status === 'Suspended').length;
-
-        // Last 7 Days Trend
-        const last7Days = [];
-        const registrationCounts = [];
-        for (let i = 6; i >= 0; i--) {
-            const d = new Date();
-            d.setDate(d.getDate() - i);
-            const day = String(d.getDate()).padStart(2, '0');
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const dateStr = `${day}/${month}/${d.getFullYear()}`;
-            
-            last7Days.push(`${day}/${month}`);
-            const count = allStudents.filter(s => s.date && s.date.includes(dateStr)).length;
-            registrationCounts.push(count);
-        }
-
-        if(lineChartInstance) lineChartInstance.destroy();
-        const ctxL = document.getElementById('lineChart7Days').getContext('2d');
-        lineChartInstance = new Chart(ctxL, {
-            type: 'line',
-            data: {
-                labels: last7Days,
-                datasets: [{
-                    label: 'Registrations',
-                    data: registrationCounts,
-                    borderColor: '#6366f1',
-                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                    fill: true,
-                    tension: 0.3
-                }]
-            },
-            options: { responsive: true, maintainAspectRatio: false }
-        });
-
-        // Gender Chart
-        const maleCount = allStudents.filter(s => s.gender === 'Male').length;
-        const femaleCount = allStudents.filter(s => s.gender === 'Female').length;
-
-        if(genderChartInstance) genderChartInstance.destroy();
-        const ctxG = document.getElementById('pieChartGender').getContext('2d');
-        genderChartInstance = new Chart(ctxG, {
-            type: 'doughnut',
-            data: {
-                labels: ['Male', 'Female'],
-                datasets: [{ data: [maleCount, femaleCount], backgroundColor: ['#6366f1', '#f43f5e'] }]
-            },
-            options: { responsive: true, maintainAspectRatio: false }
-        });
-
-        // Class Chart
-        const classes = ['১ম শ্রেণী', '২য় শ্রেণী', '৩য় শ্রেণী', '৪র্থ শ্রেণী', '৫ম শ্রেণী'];
-        const classCounts = classes.map(c => allStudents.filter(s => s.student_class === c).length);
-
-        if(classChartInstance) classChartInstance.destroy();
-        const ctxC = document.getElementById('barChartClass').getContext('2d');
-        classChartInstance = new Chart(ctxC, {
-            type: 'bar',
-            data: {
-                labels: classes,
-                datasets: [{ label: 'Students', data: classCounts, backgroundColor: '#10b981' }]
-            },
-            options: { responsive: true, maintainAspectRatio: false }
-        });
     }
 
     function renderTable() {
@@ -431,15 +327,15 @@
             tr.innerHTML = `
                 <td class="p-3 text-center text-slate-400 font-mono">${idx + 1}</td>
                 <td class="p-3 font-bold text-slate-800">${s.name}</td>
-                <td class="p-3 text-slate-600">${s.school || '-'}</td>
                 <td class="p-3 font-bold text-indigo-600">${s.student_class || '-'}</td>
+                <td class="p-3 text-slate-600">${s.school || '-'}</td>
                 <td class="p-3 font-mono text-slate-600">${s.mobile}</td>
                 <td class="p-3 font-bold ${s.status === 'Approved' ? 'text-emerald-600' : s.status === 'Pending' ? 'text-amber-600' : 'text-rose-600'}">${s.status}</td>
                 <td class="p-3 text-center">
-                    <select onchange="changeStatus(${s.row_id}, this.value)" class="bg-slate-100 border border-slate-200 rounded px-2 py-1 text-xs cursor-pointer">
+                    <select onchange="handleStatusChange(${s.row_id}, this.value)" class="bg-slate-100 border border-slate-200 rounded px-2 py-1 text-xs cursor-pointer">
                         <option value="Pending" ${s.status === 'Pending' ? 'selected' : ''}>Pending</option>
                         <option value="Approved" ${s.status === 'Approved' ? 'selected' : ''}>Approve</option>
-                        <option value="Suspended" ${s.status === 'Suspended' ? 'selected' : ''}>Suspend</option>
+           <option value="Suspended" ${s.status === 'Suspended' ? 'selected' : ''}>Suspend</option>
                     </select>
                 </td>
                 <td class="p-3 text-center">
@@ -450,41 +346,46 @@
         });
     }
 
-    function openDetailsModal(idx) {
-        const s = filteredStudents[idx];
-        document.getElementById('detailStudentName').innerText = s.name;
-        document.getElementById('detailSchool').innerText = s.school || 'N/A';
-        document.getElementById('detailClass').innerText = "Class: " + (s.student_class || 'N/A');
-        document.getElementById('detailDob').innerText = s.dob || 'N/A';
-        document.getElementById('detailGender').innerText = s.gender || 'N/A';
-        document.getElementById('detailMobile').innerText = s.mobile || 'N/A';
-        document.getElementById('detailEmail').innerText = s.email || 'N/A';
-        document.getElementById('detailBkashNum').innerText = s.bkash_number || 'N/A';
-        document.getElementById('detailTxnId').innerText = s.txn_id || 'N/A';
-        document.getElementById('detailComment').innerText = s.comment || 'N/A';
-
-        document.getElementById('detailsModal').classList.remove('hidden');
-        document.getElementById('detailsModal').classList.add('flex');
+    function handleStatusChange(rowId, status) {
+        if(status === 'Approved') {
+            executeStatusUpdate(rowId, 'Approved', 'OK');
+        } else {
+            pendingStatusUpdate = { rowId: rowId, targetStatus: status };
+            document.getElementById('reasonModalTitle').innerText = `Reason for status: ${status}`;
+            document.getElementById('reasonInput').value = '';
+            document.getElementById('reasonModal').classList.remove('hidden');
+            document.getElementById('reasonModal').classList.add('flex');
+        }
     }
 
-    function closeDetailsModal() {
-        document.getElementById('detailsModal').classList.add('hidden');
-        document.getElementById('detailsModal').classList.remove('flex');
+    function closeReasonModal() {
+        document.getElementById('reasonModal').classList.add('hidden');
+        document.getElementById('reasonModal').classList.remove('flex');
+        loadData();
     }
 
-    function changeStatus(rowId, status) {
+    function submitStatusWithReason() {
+        const reason = document.getElementById('reasonInput').value.trim();
+        if(!reason) return showToast("Please write a reason!", "error");
+
+        const { rowId, targetStatus } = pendingStatusUpdate;
+        closeReasonModal();
+        executeStatusUpdate(rowId, targetStatus, reason);
+    }
+
+    function executeStatusUpdate(rowId, status, reason) {
         const token = sessionStorage.getItem('admin_token');
         showLoader(true);
         fetch(SCRIPT_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ action: 'update_status', token: token, row_id: rowId, status: status })
+            body: JSON.stringify({ action: 'update_status', token: token, row_id: rowId, status: status, reason: reason })
         })
         .then(res => res.json())
         .then(res => {
             showLoader(false);
             if(res.status === 'success') {
-                showToast("Status Updated!");
+                showToast("Status updated successfully!");
                 loadData();
             } else {
                 showToast(res.message, "error");
@@ -496,12 +397,27 @@
         });
     }
 
-    function switchTab(tab) {
-        document.getElementById('tabOverview').classList.toggle('hidden', tab !== 'overview');
-        document.getElementById('tabManagement').classList.toggle('hidden', tab !== 'management');
-        
-        document.getElementById('tabOverviewBtn').className = tab === 'overview' ? 'px-4 py-2.5 font-bold text-xs sm:text-sm text-indigo-600 border-b-2 border-indigo-600 transition cursor-pointer' : 'px-4 py-2.5 font-bold text-xs sm:text-sm text-slate-500 hover:text-slate-800 transition cursor-pointer';
-        document.getElementById('tabManagementBtn').className = tab === 'management' ? 'px-4 py-2.5 font-bold text-xs sm:text-sm text-indigo-600 border-b-2 border-indigo-600 transition cursor-pointer' : 'px-4 py-2.5 font-bold text-xs sm:text-sm text-slate-500 hover:text-slate-800 transition cursor-pointer';
+    function openDetailsModal(idx) {
+        const s = filteredStudents[idx];
+        document.getElementById('detailStudentName').innerText = s.name;
+        document.getElementById('detailClass').innerText = "Class: " + (s.student_class || 'N/A');
+        document.getElementById('detailSchool').innerText = s.school || 'N/A';
+        document.getElementById('detailDob').innerText = s.dob || 'N/A';
+        document.getElementById('detailGender').innerText = s.gender || 'N/A';
+        document.getElementById('detailMobile').innerText = s.mobile || 'N/A';
+        document.getElementById('detailEmail').innerText = s.email || 'N/A';
+        document.getElementById('detailBkashNum').innerText = s.bkash_number || 'N/A';
+        document.getElementById('detailTxnId').innerText = s.txn_id || 'N/A';
+        document.getElementById('detailComment').innerText = s.comment || 'N/A';
+        document.getElementById('detailAdminReason').innerText = s.admin_reason || 'OK';
+
+        document.getElementById('detailsModal').classList.remove('hidden');
+        document.getElementById('detailsModal').classList.add('flex');
+    }
+
+    function closeDetailsModal() {
+        document.getElementById('detailsModal').classList.add('hidden');
+        document.getElementById('detailsModal').classList.remove('flex');
     }
 
     function logout() {
@@ -512,38 +428,43 @@
 
     function exportToPDF() {
         const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        doc.text("Math Kangaroo Bangladesh - Student List", 14, 15);
+        const doc = new jsPDF('l', 'mm', 'a4');
+        doc.text("Math Kangaroo Bangladesh - Complete Student List", 14, 15);
         
-        const tableColumn = ["Sl", "Name", "School", "Class", "Mobile", "Status"];
-        const tableRows = filteredStudents.map((s, i) => [i + 1, s.name, s.school, s.student_class, s.mobile, s.status]);
+        const tableColumn = ["Sl", "Name", "Class", "School", "Mobile", "Email", "bKash No", "TxnID", "Status", "Reason"];
+        const tableRows = filteredStudents.map((s, i) => [
+            i + 1, s.name, s.student_class, s.school, s.mobile, s.email, s.bkash_number, s.txn_id, s.status, s.admin_reason
+        ]);
 
         doc.autoTable({
             head: [tableColumn],
             body: tableRows,
             startY: 22,
+            styles: { fontSize: 8 }
         });
-        doc.save("Math_Kangaroo_Students.pdf");
+        doc.save("Math_Kangaroo_Students_Full.pdf");
     }
 
     function exportFilteredToExcel() {
         const wsData = filteredStudents.map(s => ({
             "Name": s.name,
-            "School": s.school,
             "Class": s.student_class,
+            "School": s.school,
             "Gender": s.gender,
             "Mobile": s.mobile,
             "Email": s.email,
             "bKash Paid": s.bkash_paid,
             "bKash No": s.bkash_number,
             "TrxID": s.txn_id,
-            "Status": s.status
+            "User Comment": s.comment,
+            "Status": s.status,
+            "Admin Reason": s.admin_reason
         }));
         const ws = XLSX.utils.json_to_sheet(wsData);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Students");
-        XLSX.writeFile(wb, "Math_Kangaroo_Students.xlsx");
+        XLSX.writeFile(wb, "Math_Kangaroo_Students_Full.xlsx");
     }
 </script>
 </body>
-</html>
+</html> 
