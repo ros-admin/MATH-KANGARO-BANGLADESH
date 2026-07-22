@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ম্যাথ ক্যাঙ্গারু বাংলাদেশ - অনলাইন ফাউন্ডেশন ক্যাম্প</title>
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="ম্যাথ ক্যাঙ্গারু বাংলাদেশ - অনলাইন ফাউন্ডেশন ক্যাম্প">
+  <meta name="description" content="ম্যাথ ক্যাঙ্গারু বাংলাদেশ আয়োজিত অনলাইন ফাউন্ডেশন ক্যাম্পের রেজিস্ট্রেশন ফর্ম।">
+
+  <!-- Favicon Tag -->
+  <link rel="icon" type="image/png" href="../favicon.png">
+
+  <!-- Open Graph / Facebook / WhatsApp / Messenger / Instagram -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ম্যাথ ক্যাঙ্গারু বাংলাদেশ - অনলাইন ফাউন্ডেশন ক্যাম্প">
+  <meta property="og:description" content="১ম থেকে ৫ম শ্রেণির শিক্ষার্থীদের জন্য অনলাইন ম্যাথ ক্যাঙ্গারু ফাউন্ডেশন ক্যাম্প। বিস্তারিত জানতে এবং রেজিস্ট্রেশন করতে ভিজিট করুন।">
+  <meta property="og:image" content="../favicon.png">
+
+  <!-- FontAwesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Hind Siliguri -->
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-teal: #0F675F;
+      --primary-red: #BF2327;
+      --accent-yellow: #f59e0b;
+      --bkash-color: #d12053;
+      --text-muted: #64748b;
+      --text-dark: #1e293b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Hind Siliguri', sans-serif;
+    }
+
+    body {
+      background: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 12px;
+    }
+
+    /* Page Wrapper */
+    .page-wrapper {
+      width: 100%;
+      max-width: 680px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Top Banner */
+    .top-banner {
+      width: 100%;
+      margin-bottom: 20px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .top-banner img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* Main Container with Theme Teal Border */
+    .container {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(15, 103, 95, 0.1);
+      position: relative;
+      border: 2px solid var(--primary-teal);
+      overflow: hidden;
+    }
+
+    /* Header Section with Light Teal Background */
+    .header-section {
+      text-align: center;
+      background: #e6f4f1;
+      padding: 20px 20px 15px 20px;
+    }
+
+    .header-section h1 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 2px;
+      line-height: 1.1;
+    }
+
+    .header-section h1 .brand {
+      color: var(--primary-teal);
+    }
+
+    .header-section h1 .country {
+      color: #000000;
+    }
+
+    .header-section h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+
+    .header-section h2 .online {
+      color: #000000;
+    }
+
+    .header-section h2 .camp {
+      color: var(--primary-red);
+    }
+
+    /* নিবন্ধন ফরম এর গাঢ় সবুজ বর্ডার ও ব্যাকগ্রাউন্ড সহ পৃথক বক্স */
+    .subheading-title {
+      color: #0B4E48;
+      background: #cbe6e1; 
+      border: 1.5px solid #0F675F;
+      font-size: 18px;
+      font-weight: 800;
+      display: inline-block;
+      padding: 4px 18px;
+      border-radius: 8px;
+      margin-top: 4px;
+    }
+
+    /* Solid Dark Teal Divider Bar */
+    .header-divider {
+      height: 6px;
+      background: var(--primary-teal);
+      width: 100%;
+    }
+
+    /* Form Content Container */
+    .form-content {
+      padding: 25px 30px 35px 30px;
+      position: relative;
+      background-color: #ffffff;
+      overflow: hidden;
+    }
+
+    /* --- ভাসমান ও স্থান পরিবর্তনকারী গাণিতিক চিহ্নের লেয়ার --- */
+    .math-bg-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .math-item {
+      position: absolute;
+      color: var(--primary-teal);
+      font-weight: 700;
+      opacity: 0.14; /* ভিজিবিলিটি কিছুটা বাড়ানো হয়েছে */
+      user-select: none;
+      animation: floatMath 12s infinite ease-in-out alternate;
+    }
+
+    /* জায়গা বদল ও ভাসমান অ্যানিমেশন */
+    @keyframes floatMath {
+      0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 0.12;
+      }
+      50% {
+        transform: translate(15px, -20px) rotate(15deg) scale(1.15);
+        opacity: 0.20;
+      }
+      100% {
+        transform: translate(-10px, 15px) rotate(-10deg) scale(0.95);
+        opacity: 0.10;
+      }
+    }
+
+    /* চিহ্নগুলোর জন্য স্বতন্ত্র অ্যানিমেশন স্পিড ও অবস্থান */
+    .math-item:nth-child(1)  { top: 4%;  left: 6%;  font-size: 26px; animation-duration: 10s; }
+    .math-item:nth-child(2)  { top: 8%;  left: 82%; font-size: 22px; animation-duration: 14s; }
+    .math-item:nth-child(3)  { top: 14%; left: 45%; font-size: 28px; animation-duration: 11s; }
+    .math-item:nth-child(4)  { top: 22%; left: 12%; font-size: 20px; animation-duration: 13s; }
+    .math-item:nth-child(5)  { top: 28%; left: 78%; font-size: 25px; animation-duration: 9s;  }
+    .math-item:nth-child(6)  { top: 35%; left: 35%; font-size: 24px; animation-duration: 15s; }
+    .math-item:nth-child(7)  { top: 42%; left: 88%; font-size: 22px; animation-duration: 12s; }
+    .math-item:nth-child(8)  { top: 48%; left: 8%;  font-size: 27px; animation-duration: 10s; }
+    .math-item:nth-child(9)  { top: 55%; left: 62%; font-size: 21px; animation-duration: 14s; }
+    .math-item:nth-child(10) { top: 62%; left: 22%; font-size: 26px; animation-duration: 11s; }
+    .math-item:nth-child(11) { top: 68%; left: 80%; font-size: 23px; animation-duration: 13s; }
+    .math-item:nth-child(12) { top: 75%; left: 15%; font-size: 25px; animation-duration: 9s;  }
+    .math-item:nth-child(13) { top: 82%; left: 52%; font-size: 22px; animation-duration: 15s; }
+    .math-item:nth-child(14) { top: 88%; left: 85%; font-size: 28px; animation-duration: 12s; }
+    .math-item:nth-child(15) { top: 93%; left: 8%;  font-size: 24px; animation-duration: 10s; }
+    .math-item:nth-child(16) { top: 18%; left: 65%; font-size: 20px; animation-duration: 12s; }
+    .math-item:nth-child(17) { top: 38%; left: 18%; font-size: 23px; animation-duration: 11s; }
+    .math-item:nth-child(18) { top: 78%; left: 72%; font-size: 26px; animation-duration: 14s; }
+
+    /* Yellow Info Box */
+    .details-notice-box {
+      position: relative;
+      background: #fffbeb;
+      border: 1.5px solid var(--accent-yellow);
+      border-radius: 12px;
+      padding: 14px 18px;
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 15px;
+      color: #92400e;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.08);
+      z-index: 1;
+    }
+
+    .details-notice-box a {
+      color: var(--primary-teal);
+      font-weight: 700;
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+
+    .details-notice-box a:hover {
+      color: var(--primary-red);
+    }
+
+    .section-header {
+      position: relative;
+      background: #f0fdfa;
+      color: var(--primary-teal);
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-left: 4px solid var(--primary-teal);
+      z-index: 1;
+    }
+
+    /* বিকাশ সেকশন */
+    .bkash-info-wrapper {
+        position: relative;
+        background: linear-gradient(to right, #fff0f6, #fff5f9);
+        border: 1px solid #fbcfe8;
+        border-left: 5px solid var(--bkash-color);
+        padding: 24px;
+        border-radius: 12px;
+        margin: 20px 0;
+        z-index: 1;
+    }
+
+    .payment-highlight-box {
+        background: #ffffff;
+        border: 1.5px dashed #f472b6;
+        padding: 12px 16px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 5px;
+    }
+
+    .payment-highlight-box .fee-amount {
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: var(--bkash-color);
+    }
+
+    .bkash-number-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 12px;
+        background: #ffffff;
+        padding: 12px 18px;
+        border-radius: 10px;
+        border: 1px solid #f9a8d4;
+    }
+
+    .copy-btn {
+        background: var(--bkash-color);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: 0.2s;
+    }
+    .copy-btn:hover { 
+        background: #b00e5a; 
+        transform: scale(1.02);
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      color: #374151;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+      font-size: 15px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 14px 12px 40px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #1f2937;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background-color: rgba(255, 255, 255, 0.92);
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-teal);
+      box-shadow: 0 0 0 3px rgba(15, 103, 95, 0.15);
+      background-color: #ffffff;
+    }
+
+    select.form-control {
+      appearance: none;
+      background-image: url('data:image/svg+xml;utf8,<svg fill="%236B7280" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+    }
+
+    /* Transaction ID Text Capitalization */
+    #transactionId {
+      text-transform: uppercase;
+    }
+
+    .conditional-fields {
+      display: none;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      animation: fadeIn 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .submit-btn {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary-red), #991b1e);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 14px rgba(191, 35, 39, 0.3);
+      margin-top: 15px;
+    }
+
+    .submit-btn:hover {
+      background: linear-gradient(135deg, #a11d20, var(--primary-red));
+      transform: translateY(-1px);
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      padding: 15px;
+    }
+
+    .modal-card {
+      background: white;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      max-height: 85vh;
+      overflow-y: auto;
+      animation: popupAnim 0.3s ease-out;
+    }
+
+    @keyframes popupAnim {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .close-modal {
+      background: #e2e8f0;
+      color: #334155;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 15px;
+      transition: 0.2s;
+    }
+
+    .close-modal:hover {
+      opacity: 0.9;
+    }
+
+    /* Full Loader */
+    .loader-overlay {
+      position: fixed;
+      top:0; left:0; width:100%; height:100%;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(3px);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .spinner {
+      width: 45px;
+      height: 45px;
+      border: 4px solid #ccfbf1;
+      border-top: 4px solid var(--primary-teal);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #10b981;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: none;
+      align-items: center;
+      gap: 10px;
+      z-index: 1001;
+      font-weight: 500;
+    }
+
+    /* Footer Section */
+    .footer-section {
+      width: 100%;
+      margin-top: 25px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .footer-section h4 {
+      font-size: 15px;
+      color: #475569;
+      margin-bottom: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .organizer-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 25px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .organizer-logos a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease;
+      background: #ffffff;
+      padding: 8px 12px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .organizer-logos a:hover {
+      transform: translateY(-3px);
+    }
+
+    .organizer-logos img {
+      max-height: 40px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .developer-info {
+      font-size: 13.5px;
+      color: #64748b;
+    }
+
+    .developer-info a {
+      color: var(--primary-teal);
+      text-decoration: none;
+      font-weight: 700;
+      transition: color 0.2s;
+    }
+
+    .developer-info a:hover {
+      text-decoration: underline;
+      color: #0a4943;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+    <!-- Top Banner -->
+    <div class="top-banner">
+      <img src="../Banner.jpeg" alt="Camp Banner">
+    </div>
+
+    <!-- Registration Container (Bordered with Theme Teal) -->
+    <div class="container">
+      
+      <!-- Top Header Section (Light Teal BG) -->
+      <div class="header-section">
+        <h1>
+          <span class="brand">ম্যাথ ক্যাঙ্গারু</span> <span class="country">বাংলাদেশ</span>
+        </h1>
+        <h2>
+          <span class="online">অনলাইন</span> <span class="camp">ফাউন্ডেশন ক্যাম্প</span>
+        </h2>
+        <div class="subheading-title">নিবন্ধন ফরম</div>
+      </div>
+
+      <!-- Solid Dark Teal Stripe / Divider Bar -->
+      <div class="header-divider"></div>
+
+      <!-- Main Form Body -->
+      <div class="form-content">
+
+        <!-- ব্যাকগ্রাউন্ডে ছড়ানো এবং নড়াচড়াকারী গাণিতিক আইকনসমূহ -->
+        <div class="math-bg-layer">
+          <span class="math-item">+ × ÷ -</span>
+          <span class="math-item">📐 ㏒ ∭</span>
+          <span class="math-item">⊿ ⅒ ≐</span>
+          <span class="math-item">⅚ ⅑ ✎</span>
+          <span class="math-item">ᝰ .ᐟ ⋆</span>
+          <span class="math-item">⑅ ˚₊ e = ∑∞ⁿ⁼⁰</span>
+          <span class="math-item">¹ₙ 📚 ∑</span>
+          <span class="math-item">√ 🔬 🧪</span>
+          <span class="math-item">🥽 📏 +</span>
+          <span class="math-item">× ÷ - 📐</span>
+          <span class="math-item">㏒ ∭ ⊿</span>
+          <span class="math-item">⅒ ≐ ⅚</span>
+          <span class="math-item">⅑ ✎ ᝰ</span>
+          <span class="math-item">.ᐟ ⋆ ⑅</span>
+          <span class="math-item">˚₊ e = ∑</span>
+          <span class="math-item">📚 √ 🔬</span>
+          <span class="math-item">🧪 🥽 📏</span>
+          <span class="math-item">+ × ÷ -</span>
+        </div>
+
+        <!-- Yellow Info Box for Details Link -->
+        <div class="details-notice-box">
+          <i class="fa-solid fa-circle-info"></i> ফরম পূরণ করার পূর্বে বিস্তারিত জানতে <a href="../Details/">এখানে ক্লিক করুন</a>
+        </div>
+
+        <!-- Registration Form -->
+        <form id="regForm" onsubmit="handleFormSubmit(event)">
+          
+          <!-- SECTION 1: Personal Info -->
+          <div class="section-header">
+            <i class="fa-solid fa-user-graduate"></i> ১. শিক্ষার্থীর তথ্য
+          </div>
+
+          <div class="form-group">
+            <label>১. শিক্ষার্থীর পূর্ণ নাম (ইংরেজি)*</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-user"></i>
+              <input type="text" id="name" class="form-control" placeholder="আপনার নাম লিখুন" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>২. ইমেইল অ্যাড্রেস *</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-envelope"></i>
+              <input type="email" id="email" class="form-control" placeholder="example@gmail.com" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>৩. মোবাইল নম্বর *</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-phone"></i>
+              <input type="tel" id="mobile" class="form-control" placeholder="017XX-XXXXXX" oninput="formatPhoneNumber(this)" maxlength="12" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>৪. লিঙ্গ (Gender) *</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-venus-mars"></i>
+              <select id="gender" class="form-control" required>
+                <option value="">নির্বাচন করুন</option>
+                <option value="Male">পুরুষ (Male)</option>
+                <option value="Female">নারী (Female)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>৫. জন্ম তারিখ *</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-calendar-days"></i>
+              <input type="date" id="dob" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>৬. স্কুলের নাম *</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-school"></i>
+              <input type="text" id="school" class="form-control" placeholder="আপনার স্কুলের নাম" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>৭. শ্রেণি (Class) *</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <select id="studentClass" class="form-control" required>
+                <option value="">শ্রেণি নির্বাচন করুন</option>
+                <option value="Class 1">Class 1</option>
+                <option value="Class 2">Class 2</option>
+                <option value="Class 3">Class 3</option>
+                <option value="Class 4">Class 4</option>
+                <option value="Class 5">Class 5</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- SECTION 2: Payment Info -->
+          <div class="section-header">
+            <i class="fa-solid fa-credit-card"></i> ২. পেমেন্ট সংক্রান্ত তথ্য
+          </div>
+
+          <!-- Bkash Info Wrapper -->
+          <div class="bkash-info-wrapper">
+            <div class="payment-highlight-box">
+                <i class="fas fa-coins" style="color: #eab308; font-size: 1.3rem;"></i>
+                <div>
+                    <span style="font-size: 0.8rem; color: var(--text-muted); display: block; font-weight: bold;">নিবন্ধন ফি (বিকাশ খরচসহ):</span>
+                    <span class="fee-amount">510 tk only</span>
+                </div>
+            </div>
+            <br>
+            <strong style="color: var(--bkash-color); font-size: 0.95rem;"><i class="fas fa-wallet"></i> পেমেন্ট পদ্ধতি:</strong>
+            <p style="font-size:0.85rem; margin-top:5px; color: var(--text-muted);">উক্ত ফি নিচের বিকাশ নম্বরে অবশ্যই <b>'Payment'</b> করতে হবে।</p>
+            <div class="bkash-number-row">
+                <div>
+                    <span style="font-size:0.75rem; color:var(--text-muted); display:block;">বিকাশ পেমেন্ট নম্বর</span>
+                    <strong style="font-size:1.1rem; color:var(--text-dark);" id="bkashNumber">01730716522</strong>
+                </div>
+                <button type="button" class="copy-btn" onclick="copyBkashNumber(event)">
+                    <i class="far fa-copy"></i> নম্বর কপি করুন
+                </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>৮. বিকাশে পেমেন্ট করেছেন? *</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-circle-question"></i>
+              <select id="bkashPaid" class="form-control" onchange="toggleBkashFields()" required>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="conditional-fields" id="bkashFields">
+            <div class="form-group">
+              <label>৯. বিকাশ নাম্বার *</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-mobile-screen"></i>
+                <input type="tel" id="bkashNumberInput" class="form-control" placeholder="017XX-XXXXXX" oninput="formatPhoneNumber(this)" maxlength="12">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:0;">
+              <label>১০. ট্রানজেকশন আইডি (TrxID) *</label>
+              <div class="input-wrapper">
+                <i class="fa-solid fa-receipt"></i>
+                <input type="text" id="transactionId" class="form-control" placeholder="যেমন: 8N7A6D5E" oninput="this.value = this.value.toUpperCase()">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label id="commentLabel">৯. মন্তব্য (Comment) - ঐচ্ছিক</label>
+            <div class="input-wrapper">
+              <i class="fa-solid fa-comment-dots"></i>
+              <input type="text" id="comment" class="form-control" placeholder="যেকোনো মন্তব্য থাকলে লিখুন">
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn"><i class="fa-solid fa-paper-plane"></i> নিবন্ধন সম্পন্ন করুন</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer-section">
+      <h4>Organized By</h4>
+      <div class="organizer-logos">
+        <a href="https://www.bdosn.org/" target="_blank" title="BDOSN">
+          <img src="https://www.bdosn.org/images/bdosn-logo-128.png" alt="BDOSN Logo">
+        </a>
+        <a href="https://maslab.org/" target="_blank" title="MASLab">
+          <img src="https://maslab.org/wp-content/uploads/2024/03/MASLab-Logo-1-1.png" alt="MASLab Logo">
+        </a>
+        <a href="https://kangaroomathbd.org/" target="_blank" title="Math Kangaroo Bangladesh">
+          <img src="https://kangaroomathbd.org/wp-content/uploads/2026/04/math_kangaroo_logo-01-300x156.png" alt="Math Kangaroo Logo">
+        </a>
+      </div>
+      <div class="developer-info">
+        Developed By <a href="https://www.facebook.com/utsabsarker.arup" target="_blank">UTSAB SARKER</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Dynamic Alert Modal (Warning/Error Popup) -->
+  <div class="modal-overlay" id="alertModal">
+    <div class="modal-card" style="text-align: center;">
+      <i class="fa-solid fa-triangle-exclamation" style="font-size: 50px; color: #ef4444; margin-bottom: 12px;"></i>
+      <h3 style="color: #1e293b; margin-bottom: 8px;">সতর্কতা!</h3>
+      <p id="alertModalMsg" style="color: #64748b; font-size: 15px;"></p>
+      <button type="button" class="close-modal" style="background: #ef4444; color:white;" onclick="closeModal('alertModal')">ঠিক আছে</button>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-card" style="text-align: center;">
+      <i class="fa-solid fa-circle-check" style="font-size: 50px; color: #10b981; margin-bottom: 12px;"></i>
+      <h3 style="color: #1e293b; margin-bottom: 8px;">নিবন্ধন সফল হয়েছে!</h3>
+      <p style="color: #64748b; font-size: 15px;">আপনার তথ্য সফলভাবে জমা হয়েছে। খুব শীঘ্রই আমাদের একজন প্রতিনিধি আপনার দেওয়া তথ্য যাচাই করে আপনার সঙ্গে যোগাযোগ করবে। ধন্যবাদ!</p>
+      <button type="button" class="close-modal" style="background: var(--primary-teal); color:white;" onclick="closeModal('successModal')">ঠিক আছে</button>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  <div class="loader-overlay" id="loader">
+    <div class="spinner"></div>
+    <p style="margin-top: 12px; color: #374151; font-weight: 600;">অপেক্ষা করুন...</p>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <i class="fa-solid fa-check"></i> <span id="toastMsg">কপি করা হয়েছে!</span>
+  </div>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyncSoC9cBwbGQXnTyH7EwN714_OHJBP2P96G53KKbqguH9LkU0HsMnXM1G1plF1A5XJw/exec";
+
+    // Auto-format phone numbers to XXXXX-XXXXXX
+    function formatPhoneNumber(input) {
+      let value = input.value.replace(/\D/g, ''); // Keep numbers only
+      if (value.length > 11) value = value.slice(0, 11); // Max 11 digits
+      
+      if (value.length > 5) {
+        input.value = value.slice(0, 5) + '-' + value.slice(5);
+      } else {
+        input.value = value;
+      }
+    }
+
+    function toggleBkashFields() {
+      const val = document.getElementById("bkashPaid").value;
+      const bkashFields = document.getElementById("bkashFields");
+      const numInput = document.getElementById("bkashNumberInput");
+      const trxInput = document.getElementById("transactionId");
+      const commentLabel = document.getElementById("commentLabel");
+
+      if (val === "Yes") {
+        bkashFields.style.display = "block";
+        numInput.required = true;
+        trxInput.required = true;
+        commentLabel.innerText = "১১. মন্তব্য (Comment) - ঐচ্ছিক";
+      } else {
+        bkashFields.style.display = "none";
+        numInput.required = false;
+        trxInput.required = false;
+        numInput.value = "";
+        trxInput.value = "";
+        commentLabel.innerText = "৯. মন্তব্য (Comment) - ঐচ্ছিক";
+      }
+    }
+
+    function copyBkashNumber(event) {
+      if(event) event.preventDefault();
+      const num = document.getElementById("bkashNumber").innerText;
+      navigator.clipboard.writeText(num);
+      showToast("বিকাশ নম্বর কপি করা হয়েছে!");
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      document.getElementById("toastMsg").innerText = msg;
+      toast.style.display = "flex";
+      setTimeout(() => { toast.style.display = "none"; }, 2500);
+    }
+
+    function openModal(id) { document.getElementById(id).style.display = "flex"; }
+    function closeModal(id) { document.getElementById(id).style.display = "none"; }
+
+    // Custom Alert Popup Function
+    function showAlert(msg, focusId = null) {
+      document.getElementById("alertModalMsg").innerText = msg;
+      openModal("alertModal");
+      if (focusId) {
+        setTimeout(() => {
+          document.getElementById(focusId).focus();
+        }, 100);
+      }
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const bkashPaidVal = document.getElementById("bkashPaid").value;
+
+      // Clean dash for validation and submission
+      const mobileRaw = document.getElementById("mobile").value.replace(/-/g, '');
+      const bkashRaw = document.getElementById("bkashNumberInput").value.replace(/-/g, '');
+
+      // Validation for 11 digits using custom Popup Alert
+      if (mobileRaw.length !== 11) {
+        showAlert("মোবাইল নম্বরটি অবশ্যই ১১ ডিজিটের হতে হবে।", "mobile");
+        return;
+      }
+
+      if (bkashPaidVal === "Yes" && bkashRaw.length !== 11) {
+        showAlert("বিকাশ নম্বরটি অবশ্যই ১১ ডিজিটের হতে হবে।", "bkashNumberInput");
+        return;
+      }
+
+      const payload = {
+        action: "register",
+        name: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        mobile: mobileRaw,
+        gender: document.getElementById("gender").value,
+        dob: document.getElementById("dob").value,
+        school: document.getElementById("school").value.trim(),
+        studentClass: document.getElementById("studentClass").value,
+        bkashPaid: bkashPaidVal,
+        bkashNumber: bkashPaidVal === "Yes" ? bkashRaw : "-",
+        transactionId: bkashPaidVal === "Yes" ? document.getElementById("transactionId").value.trim().toUpperCase() : "-",
+        comment: document.getElementById("comment").value.trim() || "-"
+      };
+
+      document.getElementById("loader").style.display = "flex";
+
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("loader").style.display = "none";
+        if (data.status === "success") {
+          document.getElementById("regForm").reset();
+          toggleBkashFields();
+          openModal("successModal");
+        } else {
+          showAlert("Error: " + data.message);
+        }
+      })
+      .catch(err => {
+        document.getElementById("loader").style.display = "none";
+        showAlert("তথ্য সাবমিট করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
+      });
+    }
+  </script>
+</body>
+</html>
