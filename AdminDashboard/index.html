@@ -160,8 +160,8 @@
                   <th class="p-4">Sl No.</th>
                   <th class="p-4">Student Name</th>
                   <th class="p-4">Mobile</th>
+                  <th class="p-4">Email</th>
                   <th class="p-4">Class</th>
-                  <th class="p-4">bKash Paid?</th>
                   <th class="p-4">Status</th>
                   <th class="p-4">Action</th>
                   <th class="p-4 text-center">Details</th>
@@ -204,7 +204,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx6rIUkc9Jk5DrTuUxyfF9k3xOQU465IkXOBX7Oi6w8B89OlU-8oKy9B6i7ddLsWL3B1A/exec";
     let allUsers = [], filteredUsers = [], pendingStatusChange = null;
     let trendChartInstance = null, genderChartInstance = null, classChartInstance = null;
 
@@ -315,8 +315,8 @@
           <td class="p-4 font-medium">${idx + 1}</td>
           <td class="p-4 font-semibold text-slate-800">${user.name}</td>
           <td class="p-4">${user.mobile}</td>
+          <td class="p-4">${user.email}</td>
           <td class="p-4">${user.studentClass}</td>
-          <td class="p-4">${user.bkashPaid}</td>
           <td class="p-4">${statusBadge}</td>
           <td class="p-4">
             <select onchange="onStatusSelectChange(${user.rowIndex}, this.value)" class="px-2 py-1 border border-slate-200 rounded-lg text-xs outline-none bg-white">
