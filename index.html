@@ -7,7 +7,7 @@
   <!-- Primary Meta Tags -->
   <title>ম্যাথ ক্যাঙ্গারু বাংলাদেশ - অনলাইন ফাউন্ডেশন ক্যাম্প</title>
   <meta name="title" content="ম্যাথ ক্যাঙ্গারু বাংলাদেশ - অনলাইন ফাউন্ডেশন ক্যাম্প">
-  <meta name="description" content="ম্যাথ ক্যাঙ্গারু বাংলাদেশ আয়োজিত অনলাইন ফাউন্ডেশন ক্যাম্পে রেজিস্ট্রেশন করতে ভিজিট করুন।">
+  <meta name="description" content="ম্যাথ ক্যাঙ্গারু বাংলাদেশ আয়োজিত অনলাইন ফাউন্ডেশন ক্যাম্পের বিস্তারিত জানতে ভিজিট করুন।">
 
   <!-- Favicon Tag -->
   <link rel="icon" type="image/png" href="/favicon.png">
@@ -24,8 +24,8 @@
   <meta name="twitter:description" content="১ম থেকে ৫ম শ্রেণির শিক্ষার্থীদের জন্য অনলাইন ম্যাথ ক্যাঙ্গারু ফাউন্ডেশন ক্যাম্প। বিস্তারিত জানতে এবং রেজিস্ট্রেশন করতে ভিজিট করুন।">
   <meta name="twitter:image" content="../favicon.png">
 
-  <!-- Auto Redirect Meta (Fallback: 3 Seconds) -->
-  <meta http-equiv="refresh" content="3;url=/Registration/">
+  <!-- Auto Redirect Meta (3 Seconds) -->
+  <meta http-equiv="refresh" content="3;url=../Registration/">
 
   <!-- FontAwesome 6 & Google Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -58,7 +58,7 @@
     .loading-card {
       background: #ffffff;
       width: 100%;
-      max-width: 480px;
+      max-width: 500px;
       padding: 40px 30px;
       border-radius: 20px;
       box-shadow: 0 15px 35px rgba(15, 103, 95, 0.08);
@@ -85,7 +85,7 @@
     .sub-title {
       font-size: 20px;
       font-weight: 700;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
     }
 
     .sub-title .online {
@@ -96,36 +96,51 @@
       color: var(--primary-red);
     }
 
-    /* Outer Animated Circle Spinner */
-    .spinner-container {
-      position: relative;
-      width: 90px;
-      height: 90px;
-      margin: 0 auto 25px auto;
+    /* Organized By Section */
+    .organized-by-section {
+      margin: 20px 0 25px 0;
+      padding: 15px 10px;
+      background: #f0fdfa;
+      border-radius: 12px;
+      border: 1px solid #ccfbf1;
+    }
+
+    .organized-by-section h4 {
+      font-size: 13px;
+      color: #475569;
+      margin-bottom: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .organizer-logos {
       display: flex;
       justify-content: center;
       align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
-    .spinner {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border: 4px solid #ccfbf1;
-      border-top: 4px solid var(--primary-teal);
-      border-bottom: 4px solid var(--primary-red);
-      border-radius: 50%;
-      animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+    .organizer-logos a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      padding: 6px 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease;
     }
 
-    .spinner-icon {
-      font-size: 32px;
-      color: var(--primary-teal);
+    .organizer-logos a:hover {
+      transform: translateY(-2px);
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .organizer-logos img {
+      max-height: 38px;
+      width: auto;
+      object-fit: contain;
     }
 
     /* Progress Bar */
@@ -152,21 +167,17 @@
     }
 
     .status-text {
-      font-size: 15px;
-      color: #475569;
-      font-weight: 600;
+      font-size: 16px;
+      color: var(--primary-teal);
+      font-weight: 700;
       margin-bottom: 8px;
-    }
-
-    .redirect-note {
-      font-size: 13px;
-      color: #94a3b8;
     }
 
     .manual-link {
       color: var(--primary-teal);
       text-decoration: none;
       font-weight: 700;
+      font-size: 13px;
     }
 
     .manual-link:hover {
@@ -184,10 +195,20 @@
       <span class="online">অনলাইন</span> <span class="camp">ফাউন্ডেশন ক্যাম্প</span>
     </h2>
 
-    <!-- Animated Spinner -->
-    <div class="spinner-container">
-      <div class="spinner"></div>
-      <i class="fa-solid fa-graduation-cap spinner-icon"></i>
+    <!-- Organized By Section -->
+    <div class="organized-by-section">
+      <h4>Organized By</h4>
+      <div class="organizer-logos">
+        <a href="https://www.bdosn.org/" target="_blank" title="BDOSN">
+          <img src="https://www.bdosn.org/images/bdosn-logo-128.png" alt="BDOSN Logo">
+        </a>
+        <a href="https://maslab.org/" target="_blank" title="MASLab">
+          <img src="https://maslab.org/wp-content/uploads/2024/03/MASLab-Logo-1-1.png" alt="MASLab Logo">
+        </a>
+        <a href="https://kangaroomathbd.org/" target="_blank" title="Math Kangaroo Bangladesh">
+          <img src="https://kangaroomathbd.org/wp-content/uploads/2026/04/math_kangaroo_logo-01-300x156.png" alt="Math Kangaroo Logo">
+        </a>
+      </div>
     </div>
 
     <!-- Progress Bar -->
@@ -195,25 +216,14 @@
       <div class="progress-bar"></div>
     </div>
 
-    <p class="status-text">রেজিস্ট্রেশন পেজে নিয়ে যাওয়া হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...</p>
-    <p class="redirect-note"><span id="countdown">3</span> সেকেন্ডের মধ্যে রিডাইরেক্ট না হলে <a href="../Registration/" class="manual-link">এখানে ক্লিক করুন</a>।</p>
+    <p class="status-text">নিবন্ধন ফরমে নিয়ে যাওয়া হচ্ছে...</p>
   </div>
 
   <script>
-    // Countdown Timer Logic
-    let seconds = 3;
-    const countdownEl = document.getElementById('countdown');
-
-    const interval = setInterval(() => {
-      seconds--;
-      if (seconds >= 0) {
-        countdownEl.innerText = seconds;
-      }
-      if (seconds <= 0) {
-        clearInterval(interval);
-        window.location.href = "/Registration/";
-      }
-    }, 1000);
+    // Redirect to Registration Page after 3 seconds
+    setTimeout(() => {
+      window.location.href = "../Registration/";
+    }, 3000);
   </script>
 </body>
 </html>
